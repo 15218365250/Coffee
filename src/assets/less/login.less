@@ -1,0 +1,117 @@
+.login{
+    // 头部标题
+    background: url('../img/LoginBg.png') no-repeat;
+    background-size: cover;
+    height: 100vh;
+    .hear{
+        display: flex;
+        padding: 5px;
+        color: #8f5105;
+        background-color: black;
+        border-top: 5px solid #8f5105;
+        border-bottom: 2px solid #8f5105;
+        .logo{
+            width: 45px;
+            height: 45px;
+            background: url('../img/雀巢logo.png') no-repeat;
+            background-size: contain;
+        }
+        .brandName{
+            flex: 1;
+            text-align: left;
+            line-height: 45px;
+            font-size: 20px;
+            font-weight: bolder;
+            padding-left: 20px;
+        }
+        .btn{
+            background: none;
+            border: none;
+            font-size: 16px;
+            margin-right: 5px;
+            color: #8f5105;
+            a{
+                color: #8f5105;
+            }
+        }
+    }
+    // conter 内容
+    .wirthMassage{
+        text-align: left;
+        padding-left: 20px;
+        color: #8f5105;
+        h1{
+            padding-top:150px;
+        }
+        h4{
+            margin-top:10px;
+            color: gray;
+        }
+        .conter{
+            margin-top: 100px;
+            margin-right: 20px;
+            .register{
+                margin-top: 10px;
+            }
+            .keepBnt{
+                display: flex;
+                margin-top: 25px;
+                text-align: center;
+                font-size: 18px;
+                div{
+                    flex: 1;
+                    padding: 5px 0;
+                    background-color: #8f5105;
+                    color: aliceblue;
+                }
+                .one{
+                    margin-right: 5px;
+                }
+            }
+        }
+    }
+    .register{
+        position: absolute;
+        bottom: 0;
+        width: 100vw;
+        color: honeydew;
+        height: 100vh;
+        font-size: 16px;
+        background-color: rgba(0, 0, 0, 0.5);
+        .regConter{
+            position: absolute;
+            padding-top: 20px;
+            bottom: 0;
+            width: 100%;
+            background-color: rgb(149, 85, 24);
+            border-top-left-radius:10px;
+            border-top-right-radius:10px;
+            &.showForm-enter{
+                height: 0;
+            }
+            &.showForm-enter-to{
+                height: 33.5vh;
+            }
+            &.showForm-enter-active{
+                transition: all 0.5s ease;
+            }
+            .inputTy{
+                text-align: center;
+                margin: 0 35px;
+                .input{
+                    margin: 10px;
+                    color: black;
+                    height: 35px;
+                    padding: 5px;
+                    border-radius: 10px;
+                }
+            }
+            .setUp{
+                margin: 10px auto;
+                padding: 5px;
+                width: 50%;
+                border: 3px solid rgb(109, 63, 3);
+            }
+        }
+    }
+}

@@ -1,0 +1,89 @@
+
+.home {
+    
+    // 底部主导航
+    .Mnavigation {
+        position: fixed;
+        background-color: #e4e0db;
+        display: flex;
+        z-index: 200;
+        bottom: 0;
+        width: 100%;
+        border-bottom: 5px solid #8f5105;
+        border-top: 2px solid #8f5105;
+        ul {
+            width: 100%;
+            display: flex;
+            li {
+                flex: 1;
+                display: inline-block;
+                .ico-main {
+                    flex: 1;
+                    color: #4e4e4e;
+
+                    .img-ico {
+                        width: 30px;
+                        height: 30px;
+                        margin: auto;
+                    }
+
+                    p {
+                        font-size: 14px;
+                        font-weight: bolder;
+                    }
+
+                    .con {
+                        width: 30px;
+                        height: 30px;
+                        margin: auto;
+                    }
+
+                    .con+p {
+                        color: #8f5105;
+                    }
+                }
+
+                &:nth-child(1) .img-ico {
+                    background: url('../img/咖啡豆(1).svg') no-repeat;
+                    background-size: contain;
+                }
+
+                &:nth-child(2) .img-ico {
+                    background: url('../img/订单.svg') no-repeat;
+                    background-size: contain;
+                }
+
+                &:nth-child(3) .img-ico {
+                    background: url('../img/购物车(1).svg') no-repeat;
+                    background-size: contain;
+                }
+
+                &:nth-child(4) .img-ico {
+                    background: url('../img/我的 (1).svg') no-repeat;
+                    background-size: contain;
+                }
+
+                &:nth-child(1) .con {
+                    background: url('../img/咖啡豆.svg') no-repeat;
+                    background-size: contain;
+                }
+
+                &:nth-child(2) .con {
+                    background: url('../img/订单(1).svg') no-repeat;
+                    background-size: contain;
+                }
+
+                &:nth-child(3) .con {
+                    background: url('../img/购物车.svg') no-repeat;
+                    background-size: contain;
+                }
+
+                &:nth-child(4) .con {
+                    background: url('../img/我的.svg') no-repeat;
+                    background-size: contain;
+                }
+            }
+        }
+
+    }
+}
