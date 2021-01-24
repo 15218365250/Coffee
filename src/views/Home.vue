@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <keep-alive exclude='ShopCat,Address'>
+    <keep-alive exclude='ShopCat,Address,Submit'>
       <router-view :title="title[0]"></router-view>
     </keep-alive>
 
@@ -19,7 +19,7 @@
             <p>首页</p>
           </div>
         </router-link>
-        <router-link to="/overderForm" tag="li">
+        <router-link to="/menu" tag="li">
           <div class="ico-main">
             <div
               @click="con(2)"

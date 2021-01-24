@@ -1,0 +1,107 @@
+.menu {
+    width: 100vw;
+    height: 100vh;
+
+    .heard {
+        display: flex;
+        position: sticky;
+        top: 0;
+        z-index: 200;
+        width: 100%;
+        height: 40px;
+        background-color: #beae9b;
+        border-top: 5px solid #8f5105;
+        border-bottom: 2px solid #8f5105;
+        color: #8f5105;
+
+        p {
+            flex: 1;
+            font-size: 20px;
+            line-height: 40px;
+        }
+    }
+
+    .conter {
+        .listTitle {
+            position: fixed;
+            width: 100%;
+            top: 45px;
+            border-bottom: 2px solid #8f5105;
+        }
+
+        .listForm {
+            ul {
+                margin-top: 60px;
+                padding-bottom: 45px;
+
+                li {
+                    display: flex;
+                    padding: 10px;
+                    margin: 20px 10px;
+                    border: 2px solid #8f5105;
+                    box-shadow: 0px 1px 2px 2px #8f5105;
+                    border-radius: 10px;
+
+                    .imgPg {
+                        width: 70px;
+                        height: 70px;
+                        border-radius: 10px;
+                        overflow: hidden;
+                        box-shadow: 0px 1px 2px 2px #8f5105;
+
+                        img {
+                            width: 100%;
+                            height: 100%;
+                        }
+                    }
+
+                    .tets {
+                        margin: 0px auto;
+                        text-align: left;
+                        margin-left: 20px;
+                        color: rgb(3, 36, 90);
+
+                        p {
+                            margin-top: 5px;
+                            width: 135px;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            white-space: nowrap;
+                        }
+
+                        .much {
+                            color: #8f5105;
+                            font-size: 14px;
+                            font-weight: bold;
+                        }
+                    }
+
+                    .textSay {
+                        box-sizing: border-box;
+                        text-align: left;
+                        padding: 5px;
+                        width: 115px;
+                        height: 75px;
+                        text-indent: 20px;
+                        border: 2px solid #8f5105;
+                        box-shadow: 0px 1px 2px 2px #8f5105;
+                        border-radius: 10px;
+                        font-weight: bold;
+                        color: #8f5105;
+                        overflow-y: hidden;
+                        display: -webkit-box;
+                        /**对象作为伸缩盒子模型展示**/
+                        -webkit-box-orient: vertical;
+                        /**设置或检索伸缩盒子对象的子元素的排列方式**/
+                        -webkit-line-clamp: 4;
+                        /**显示的行数**/
+                    }
+
+                }
+            }
+
+        }
+
+    }
+
+}

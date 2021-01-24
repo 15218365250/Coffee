@@ -241,7 +241,7 @@ export default {
       if (!tokenString) {
         return this.$router.push({ name: "Login" });
       }
-      console.log("list==>");
+      
       // 加载
       this.$toast.loading({
         message: "加载中...",
@@ -580,7 +580,64 @@ export default {
 
     // 提交订单
     onSubmit() {
-      this.$router.push({ name: "Delivery" });
+      
+      let tokenString = this.$cookies.get("tokenString");
+
+      if (!tokenString) {
+        return this.$router.push({ name: "Login" });
+      }
+
+      // 加载
+      this.$toast.loading({
+        message: "加载中...",
+        forbidClick: true,
+        duration: 0,
+      });
+
+      let total = [];
+      this.getShopCutData.forEach(v=>{
+        if(v.isChecked){
+          total.push(v);
+        }
+      })
+      console.log(total);
+
+      this.$http({
+        method: "get",
+        url: "/commitShopcart",
+        params: {
+          tokenString,
+          sids:JSON.stringify(total)
+        },
+      })
+        .then((res) => {
+          this.$toast.clear();
+          console.log(res)
+
+          if (res.data.code == 700) {
+            this.$toast({
+              message: res.data.msg,
+              forbidClick: true,
+              duration: 1000,
+            });
+            return this.$router.push({ name: "Login" });
+          }
+
+          if (res.data.code === 50000) {
+        
+           this.$router.push({ name: "Submit" });
+          } else {
+            this.$toast({
+              message: res.data.msg,
+              forbidClick: true,
+              duration: 1000,
+            });
+          }
+        })
+        .catch((err) => {
+          this.$toast.clear();
+          console.log("err==>", err);
+        });
     },
   },
 };

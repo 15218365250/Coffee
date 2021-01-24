@@ -6,10 +6,10 @@ const otherChhild = [
         component:()=>import('../views/Main')
     },
     {
-        path:'/overderForm',
-        name:'OverderForm',
+        path:'/menu',
+        name:'Menu',
         props: true,
-        component:()=>import('../views/OverderForm'),
+        component:()=>import('../views/Menu'),
     },
     {
         path:'/shopCat',
@@ -47,6 +47,12 @@ export const routes = [
         props: true,
         name:'Address',
         component:()=>import('../views/Address')
+    },
+    {
+        path:'/submit',
+        props: true,
+        name:'Submit',
+        component:()=>import('../views/Submit')
     }
    
 ]

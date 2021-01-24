@@ -48,7 +48,7 @@ export default {
 
   methods: {
     onClickLeft() {
-      this.$router.go(-1);
+      this.$router.push({name:'Delivery'});
     },
 
     // 保存地址

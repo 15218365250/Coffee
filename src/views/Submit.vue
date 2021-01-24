@@ -1,57 +1,50 @@
 <template>
-  <div class="delivery">
+  <div class="submit">
     <div class="heard">
       <span @click="onClickLeft">返回</span>
-      <p>选择收货地址</p>
+      <p>订单结算</p>
+      <span @click="goChangeSite">选择地址</span>
     </div>
-
-    <div class="conter">
-      <div class="addlit">
-        <van-address-list
-          v-model="chosenAddressId"
-          :list="list"
-          default-tag-text="默认"
-          default-tag-text-color="#8f5105"
-          @add="onAdd"
-          @edit="onEdit"
-        />
-      </div>
+    <div class="site">
+      <van-address-list
+        v-model="chosenAddressId"
+        :list="list"
+        :switchable="false"
+        default-tag-text="默认"
+        @edit="edit"
+      />
     </div>
+    <div class="conter">订单内容</div>
   </div>
 </template>
 <script>
-import "../assets/less/delivery.less";
-// import { Toast } from "vant";
+import "../assets/less/submit.less";
 export default {
-  name: "Delivery",
-
+  name: "Submit",
   data() {
     return {
-      chosenAddressId: "1",
+      //   默认地址信息
       list: [],
+      chosenAddressId:1
     };
   },
-
-  beforeRouteEnter(to, from, next) {
-    next((vm) => {
-      vm.getDelivered();
-    });
+  mounted() {
+    this.getordersite();
   },
   methods: {
     onClickLeft() {
-      this.$router.push({name:'Submit'});
+      this.$router.push({name:'ShopCat'});
     },
-    // 新增地址
-    onAdd() {
-      this.$router.push({ name: "Address" });
+    // 选择地址
+    goChangeSite() {
+      this.$router.push({ name: "Delivery" });
     },
     // 编辑地址
-    onEdit({ aid }) {
-      this.$router.push({ name: "Address", params: { aid } });
+    edit({aid}){
+        this.$router.push({name:'Address',params: { aid }})
     },
-
-    // 获取已存储的收货地址
-    getDelivered() {
+    // 获取以保存收货地址
+    getordersite() {
       let tokenString = this.$cookies.get("tokenString");
 
       if (!tokenString) {
@@ -88,9 +81,10 @@ export default {
             res.data.result.forEach((v) => {
               v.address = `${v.province}${v.city}${v.county}${v.addressDetail}`;
               v.isDefault = !!v.isDefault; //转换成布尔值
+              if (v.isDefault) {
+                this.list.push(v);
+              }
             });
-
-            this.list = res.data.result;
           } else {
             this.$toast({
               message: res.data.msg,

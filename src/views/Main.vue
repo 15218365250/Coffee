@@ -5,12 +5,18 @@
       <div class="logo"></div>
       <div class="seach">
         <input type="text" v-model="keyword" placeholder="搜索商品" />
-        <i></i>
+        <i @click="lestGo"></i>
       </div>
     </div>
     <div class="searchList">
       <ul>
-        <li v-for="v in searchTip" :key="v.pid">{{ v.name }}</li>
+        <li
+          v-for="v in searchTip"
+          :key="v.pid"
+          @click="onKeyworder({ name: v.name, pid: v.pid })"
+        >
+          {{ v.name }}
+        </li>
       </ul>
     </div>
     <!-- 轮播 -->
@@ -55,6 +61,8 @@ export default {
       keyword: "",
       // 搜索提示
       searchTip: [],
+      // 搜索商品的pid
+      searchPid: "",
     };
   },
   mounted() {
@@ -69,6 +77,7 @@ export default {
   watch: {
     keyword: function () {
       this.getSearchData();
+      
     },
   },
   methods: {
@@ -90,9 +99,31 @@ export default {
         sear.forEach((v) => {
           this.searchTip.push({ name: v.name, pid: v.pid });
         });
-
-        console.log(this.searchTip);
+        if(this.keyword == ''){
+          this.searchTip = [];
+        }
+        
       });
+    },
+
+    // 点击对应提示标题赋值输入框
+    onKeyworder(arryVul) {
+      this.keyword = arryVul.name;
+      this.searchPid = arryVul.pid;
+    },
+
+    // // 开始搜索
+    lestGo() {
+      let keyId = this.searchPid;
+      this.$root.global.prociData = {};
+      this.$root.global.showform = true;
+
+      this.$http("/productDetail?pid=" + keyId).then((res) => {
+        this.$root.global.prociData = res.data.result[0];
+      });
+      setTimeout(()=>{
+        this.keyword = '';
+      },1000)
     },
   },
 };
