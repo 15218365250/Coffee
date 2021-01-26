@@ -29,6 +29,18 @@
     }
 
     .site {
+        .title {
+            text-align: left;
+            font-size: 14px;
+            margin-top: 10px;
+            font-weight: bold;
+            color: aliceblue;
+            background-color: #8f5105;
+            border: 2px solid #663903;
+            border-left: 5px solid #663903;
+            padding: 5px;
+        }
+
         .van-address-list {
             padding: 10px;
 
@@ -36,10 +48,143 @@
                 border: 3px solid #8f5105;
                 border-radius: 10px;
             }
+
             .van-address-item__tag {
                 background-color: #8f5105;
+            }
+
+            .van-button {
+                background-color: #8f5105;
+                border: 3px solid #663903;
             }
         }
 
     }
+
+    .title {
+        text-align: left;
+        font-size: 14px;
+        font-weight: bold;
+        color: aliceblue;
+        background-color: #8f5105;
+        border: 2px solid #663903;
+        border-left: 5px solid #663903;
+        padding: 5px;
+    }
+
+    .conter {
+
+
+        .playform {
+            .conter {
+                display: flex;
+                border: 3px solid #8f5105;
+                border-radius: 10px;
+                margin: 10px;
+
+                .pimg {
+                    width: 60px;
+                    height: 60px;
+                    border-radius: 10px;
+                    background-color: black;
+                    margin: 10px;
+                    overflow: hidden;
+                    border: 2px solid #8f5105;
+
+                    img {
+                        width: 100%;
+                    }
+                }
+
+                .p-txt {
+                    flex: 1;
+                    text-align: left;
+                    margin: 10px;
+
+                    p {
+                        margin: 5px 0;
+
+                        i {
+                            color: #8f5105;
+
+                        }
+                    }
+
+                    .name {
+                        font-size: 16px;
+
+                        .rule {
+                            margin-left: 20px;
+                        }
+                    }
+
+                    .much {
+                        float: right;
+
+                    }
+                }
+
+            }
+
+        }
+
+        .sumMuy {
+            display: flex;
+            position: fixed;
+            bottom: 60px;
+            right: 0;
+
+            border-bottom: 2px solid #8f5105;
+            border-top: 2px solid #8f5105;
+            padding: 5px 0;
+            font-size: 18px;
+            font-weight: bold;
+
+            .time {
+                flex: 1;
+                text-align: left;
+
+                p {
+                    margin-left: 20px;
+
+                    &:nth-child(2) {
+                        font-size: 12px;
+                    }
+                }
+
+            }
+
+            .sum {
+                margin: auto 10px;
+            }
+        }
+
+    }
+
+    .botn {
+        .van-radio-group{
+            padding-top: 40px;
+        }
+        .van-radio{
+            .van-icon-success {
+                background-color: #a15b05;
+                border: 1px solid #774202;
+            }
+            
+        }
+        .van-address-item__tag{
+            background-color: #8f5105;
+        }
+        .van-address-item__edit{
+                display: none;
+            }
+        .van-address-list__bottom {
+
+            button {
+                background-color: #a85f05;
+                border: 4px solid #774202;
+            }
+        }
+    }
+
 }

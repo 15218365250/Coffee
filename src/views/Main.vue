@@ -92,7 +92,7 @@ export default {
 
     // 获取搜索信息
     getSearchData() {
-      console.log(this.keyword);
+      
       this.$http("/search?name=" + this.keyword).then((res) => {
         let sear = res.data.result;
         this.searchTip = [];

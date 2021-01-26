@@ -159,7 +159,7 @@ export default {
     modification() {
       //查询地址数据
       let tokenString = this.$cookies.get("tokenString");
-      console.log(this.aid);
+     
       if (!tokenString) {
         return this.$router.push({ name: "Login" });
       }
@@ -197,7 +197,7 @@ export default {
             data.isDefault = !!data.isDefault;
 
             this.aiddeliverInfor = data;
-            console.log(this.aiddeliverInfor);
+         
           } else {
             this.$toast({
               message: res.data.msg,

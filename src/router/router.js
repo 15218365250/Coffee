@@ -49,10 +49,22 @@ export const routes = [
         component:()=>import('../views/Address')
     },
     {
-        path:'/submit',
+        path:'/submit/:query?',
         props: true,
         name:'Submit',
         component:()=>import('../views/Submit')
+    },
+    {
+        path:'/settingup/:massge?',
+        name:'SettingUp',
+        props: true,
+        component:()=>import('../views/SettingUp')
+    },
+    {
+        path:'/myorder',
+        name:'Myorder',
+        props: true,
+        component:()=>import('../views/Myorder')
     }
    
 ]

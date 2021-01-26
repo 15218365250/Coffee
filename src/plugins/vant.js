@@ -17,7 +17,11 @@ import {
     Badge ,
     Empty ,
     AddressList ,
-    AddressEdit 
+    AddressEdit ,
+    Uploader,
+    Tab,
+    Tabs 
+
 } from 'vant';
 
 Vue.use(Button)
@@ -50,3 +54,6 @@ Vue.use(Button)
     .use(Empty )
     .use(AddressList )
     .use(AddressEdit )
+    .use(Uploader )
+    .use(Tab)
+    .use(Tabs)

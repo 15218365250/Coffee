@@ -2,7 +2,7 @@
   <div class="delivery">
     <div class="heard">
       <span @click="onClickLeft">返回</span>
-      <p>选择收货地址</p>
+      <p>地址管理</p>
     </div>
 
     <div class="conter">
@@ -10,6 +10,7 @@
         <van-address-list
           v-model="chosenAddressId"
           :list="list"
+          :switchable="false"
           default-tag-text="默认"
           default-tag-text-color="#8f5105"
           @add="onAdd"
@@ -39,7 +40,7 @@ export default {
   },
   methods: {
     onClickLeft() {
-      this.$router.push({name:'Submit'});
+      this.$router.go(-1);
     },
     // 新增地址
     onAdd() {

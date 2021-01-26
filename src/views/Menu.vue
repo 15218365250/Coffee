@@ -174,7 +174,7 @@ export default {
                 // 获取成功
                 if (res.data.code === 500) {
                   this.allMenuData = [];
-                  console.log(res);
+                  
                   this.allMenuData = res.data.result;
                 }
               })
