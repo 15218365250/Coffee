@@ -80,7 +80,6 @@ export default {
         .then((res) => {
           this.$toast.clear();
 
-          console.log(res);
           if (res.data.code == 700) {
             this.$toast({
               message: res.data.msg,

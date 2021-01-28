@@ -28,6 +28,9 @@
           placeholder="密码"
           :rules="[{ required: true, message: '请填写密码' }]"
         />
+        <div class="forget">
+          <span @click="findPassword">忘记密码</span>
+        </div>
         <div class="keepBnt">
           <div class="one" @click="loginUp">登录</div>
           <div class="two" @click="onShow">注册</div>
@@ -38,6 +41,7 @@
     <div class="register" v-show="changeShowform">
       <transition name="showForm" appear>
         <div class="regConter" v-show="changeShowform">
+          <div class="cax" @click="offe">×</div>
           <van-form class="inputTy">
             <van-field
               class="input"
@@ -66,6 +70,59 @@
         </div>
       </transition>
     </div>
+
+    <!-- 找回密码 -->
+    <van-popup
+      v-model="show"
+      closeable
+      position="bottom"
+      round
+      :style="{ width: '100%', height: '50%' }"
+    >
+      <div class="findpass">
+        <p>找回密码</p>
+        <div class="inputs">
+          邮<i></i>箱:<input
+            type="text"
+            v-model="email"
+            placeholder="请输入邮箱号"
+          /><br />
+          验证码:<input
+            type="text"
+            v-model="verification"
+            placeholder="请输入验证码"
+          /><br />
+          <span class="settime" @click="getverification">获取验证码</span>
+          <div class="next" @click="goreset">下一步</div>
+        </div>
+      </div>
+    </van-popup>
+
+    <!-- 提交新密码 -->
+    <van-popup
+      v-model="showtwo"
+      closeable
+      position="bottom"
+      round
+      :style="{ width: '100%', height: '50%' }"
+    >
+      <div class="findpass">
+        <p>找回密码</p>
+        <div class="inputs">
+          手机号:<input
+            type="text"
+            v-model="phoneNumber"
+            placeholder="请输入手机号"
+          /><br />
+          新密码:<input
+            type="text"
+            v-model="newpassword"
+            placeholder="请输入新密码"
+          /><br />
+          <div class="next" @click="goreset">提交</div>
+        </div>
+      </div>
+    </van-popup>
   </div>
 </template>
 <script>
@@ -77,6 +134,8 @@ export default {
   name: "Login",
   data() {
     return {
+      show: false,
+      showtwo: false,
       // 显示或隐藏注册表单
       changeShowform: false,
       // 用户登录信息
@@ -90,11 +149,22 @@ export default {
         password: "",
         nikname: "",
       },
+      // 邮箱
+      email: "",
+      // 验证码
+      verification: "",
+      // 注册时的手机号
+      phoneNumber: "",
+      // 新密码
+      newpassword: "",
     };
   },
   methods: {
     onClickRight() {
       console.log("返回");
+    },
+    offe() {
+      this.changeShowform = false;
     },
     // 显示或隐藏注册表单
     onShow() {
@@ -115,15 +185,15 @@ export default {
           password: this.userLoginMassege.password,
           phone: this.userLoginMassege.username,
         },
-      }).then((res) => {
+      })
+        .then((res) => {
           this.$toast.clear();
           if (res.data.code === 200) {
-            
             // let st = res.data.token
             // console.log(st)
-            this.$cookies.set("tokenString",res.data.token , "1d");
+            this.$cookies.set("tokenString", res.data.token, "1d");
             // console.log(this.$cookies.keys())
-            this.$router.push({ path:'/main' });
+            this.$router.push({ path: "/main" });
           } else {
             this.$toast({
               message: res.data.msg,
@@ -131,7 +201,8 @@ export default {
               duration: 3000,
             });
           }
-        }).catch((err) => {
+        })
+        .catch((err) => {
           this.$toast.clear();
           console.log("err==>", err);
         });
@@ -194,6 +265,56 @@ export default {
             console.log("err ==> ", err);
           });
         }
+      });
+    },
+
+    // 忘记密码
+    findPassword() {
+      this.show = true;
+    },
+
+    //获取验证码
+    getverification() {
+      this.$http({
+        method: "post",
+        url: "/emailValidCode",
+        data: {
+          email: this.email,
+        },
+      }).then((res) => {
+        if (res.data.code == "J001") {
+          this.updatatime();
+        }
+      });
+    },
+
+    // 验证码倒计时
+    updatatime() {
+      let timeconter = document.querySelector(".settime");
+      let times = 120;
+      let timeclare = null;
+      timeclare = setInterval(() => {
+        timeconter.innerHTML = times-- + "s";
+        if (times == 0) {
+          clearInterval(timeclare);
+          timeconter.innerHTML = "获取验证码";
+        }
+      }, 1000);
+    },
+
+    // 进入重置密码
+    goreset() {
+      this.$http({
+        method: "post",
+        url: "/retrievePassword",
+        data: {
+          phone: this.phoneNumber,
+          password: this.newpassword,
+        },
+      }).then((res) => {
+        if(res.data.code == "L001")
+        this.showtwo = true;
+        this.show = false;
       });
     },
   },

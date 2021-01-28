@@ -135,7 +135,6 @@ export default {
           }
 
           if (res.data.code === 70000) {
-            console.log(res);
 
             let products = [];
             let oids = [];

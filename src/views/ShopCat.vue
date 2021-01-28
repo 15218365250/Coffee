@@ -502,7 +502,7 @@ export default {
             if (index != undefined) {
               this.getShopCutData.splice(index, 1);
             } else {
-              console.log(sids);
+            
               for (let i = 0; i < this.getShopCutData.length; i++) {
                 if (this.getShopCutData[i].isChecked) {
                   this.getShopCutData.splice(i, 1);

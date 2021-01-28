@@ -1,14 +1,24 @@
 <template>
   <div class="myself">
     <div class="heard">
-      <span class="userIMg"><img :src="userMassage.userImg" alt=""></span>
+      <span class="userIMg"><img :src="userMassage.userImg" alt="" /></span>
       <p>用户中心</p>
       <span @click="goseting">设置</span>
     </div>
     <div class="conter">
-      <div class="top">
-        <div class="userImg"><img :src="userMassage.userImg"></div>
-        <div class="desc">{{userMassage.desc}}</div>
+      <div
+        class="top"
+        :style="{
+          background: `url(${mydata.userBg}) no-repeat`,
+          backgroundSize: 'cover',
+        }"
+      >
+        <div class="userImg"><img :src="userMassage.userImg" /></div>
+        <div class="desc">
+          {{
+            (userMassage.desc = "" ? "这人很懒，什么也没有" : userMassage.desc)
+          }}
+        </div>
       </div>
       <div class="bottom">
         <div>
@@ -60,8 +70,6 @@
           </ul>
         </div>
       </van-popup>
-      
-      
     </div>
   </div>
 </template>
@@ -73,6 +81,9 @@ export default {
     return {
       // 用户信息
       userMassage: {},
+
+      // 我的信息
+      mydata: [],
 
       // 显示隐藏
       mycollect: false,
@@ -86,6 +97,7 @@ export default {
     this.$root.global.swap = 4;
     this.getUser();
     this.getcollectData();
+    this.getmydata();
   },
   methods: {
     goseting() {
@@ -118,7 +130,7 @@ export default {
             });
             return this.$router.push({ name: "Login" });
           }
-          console.log(res)
+        
           if (res.data.code === "B001") {
             res.data.result[0].phone =
               res.data.result[0].phone.slice(0, 3) +
@@ -141,8 +153,7 @@ export default {
     },
     // 显示我的订单
     showmyorders() {
-
-      this.$router.push({name:'Myorder'});
+      this.$router.push({ name: "Myorder" });
     },
     // 显示我的收藏
     showmyfavorite() {
@@ -177,7 +188,6 @@ export default {
           }
 
           if (res.data.code === 2000) {
-            
             this.collectData = res.data.result;
           } else {
             this.$toast({
@@ -204,9 +214,52 @@ export default {
     },
 
     // 点击地址管理
-    onclickmap(){
-      this.$router.push({name:'Delivery'})
-    }
+    onclickmap() {
+      this.$router.push({ name: "Delivery" });
+    },
+
+    // 获取我的
+    getmydata() {
+      let tokenString = this.$cookies.get("tokenString");
+
+      if (!tokenString) {
+        return this.$router.push({ name: "Login" });
+      }
+
+      // 加载
+      this.$toast.loading({
+        message: "加载中...",
+        forbidClick: true,
+        duration: 0,
+      });
+
+      this.$http("/findMy?tokenString=" + tokenString)
+        .then((res) => {
+          this.$toast.clear();
+          if (res.data.code == 700) {
+            this.$toast({
+              message: res.data.msg,
+              forbidClick: true,
+              duration: 1000,
+            });
+            return this.$router.push({ name: "Login" });
+          }
+          if (res.data.code === "A001") {
+            this.mydata = res.data.result[0];
+          
+          } else {
+            this.$toast({
+              message: res.data.msg,
+              forbidClick: true,
+              duration: 1000,
+            });
+          }
+        })
+        .catch((err) => {
+          this.$toast.clear();
+          console.log("err==>", err);
+        });
+    },
   },
 };
 </script>

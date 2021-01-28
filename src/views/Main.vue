@@ -77,32 +77,33 @@ export default {
   watch: {
     keyword: function () {
       this.getSearchData();
-      
     },
   },
   methods: {
     // 点击获取相应的商品详情
     goDetails(keyId) {
       this.$root.global.prociData = {};
-      this.$root.global.showform = true;
+      this.$root.global.showform = false;
       this.$http("/productDetail?pid=" + keyId).then((res) => {
-        this.$root.global.prociData = res.data.result[0];
+
+        if (res.data.code == 600) {
+          this.$root.global.showform = true;
+          this.$root.global.prociData = res.data.result[0];
+        }
       });
     },
 
     // 获取搜索信息
     getSearchData() {
-      
       this.$http("/search?name=" + this.keyword).then((res) => {
         let sear = res.data.result;
         this.searchTip = [];
         sear.forEach((v) => {
           this.searchTip.push({ name: v.name, pid: v.pid });
         });
-        if(this.keyword == ''){
+        if (this.keyword == "") {
           this.searchTip = [];
         }
-        
       });
     },
 
@@ -114,6 +115,10 @@ export default {
 
     // // 开始搜索
     lestGo() {
+      if (this.keyword == "") {
+        return;
+      }
+
       let keyId = this.searchPid;
       this.$root.global.prociData = {};
       this.$root.global.showform = true;
@@ -121,9 +126,9 @@ export default {
       this.$http("/productDetail?pid=" + keyId).then((res) => {
         this.$root.global.prociData = res.data.result[0];
       });
-      setTimeout(()=>{
-        this.keyword = '';
-      },1000)
+      setTimeout(() => {
+        this.keyword = "";
+      }, 1000);
     },
   },
 };

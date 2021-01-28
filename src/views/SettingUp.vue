@@ -49,10 +49,32 @@
           <button @click="changpassword">确定</button>
         </div>
       </li>
+      <li>
+        <p>
+          个人简介<span @click="showmySay"><van-icon name="arrow" /></span>
+        </p>
+        <div v-show="mySay">
+          <div class="mysay">
+            <input type="text" v-model="textWord" placeholder="请输入文本" />
+            <button @click="onchangeText">确定</button>
+          </div>
+        </div>
+      </li>
+      <li>
+        <p>
+          注销账号<span @click="dldeterUser"><van-icon name="arrow" /></span>
+        </p>
+      </li>
+      <li>
+        <p>
+          退出登录<span @click="tunoutuser"><van-icon name="arrow" /></span>
+        </p>
+      </li>
     </ul>
   </div>
 </template>
 <script>
+import { Dialog } from "vant";
 import "../assets/less/settingup.less";
 export default {
   name: "SettingUp",
@@ -62,10 +84,13 @@ export default {
       heardImg: false,
       bgImg: false,
       changePassword: false,
+      mySay: false,
       // 用户以前的信息
       massge: {},
       // 修改内容(昵称)
       newword: "",
+      // 个人简介
+      textWord: "",
       // 密码
       newPassword: "",
       orderPassword: "",
@@ -74,6 +99,9 @@ export default {
   },
   created() {
     this.massge = this.$route.params.massge;
+  },
+  components: {
+    [Dialog.Component.name]: Dialog.Component,
   },
   methods: {
     goback() {
@@ -84,24 +112,35 @@ export default {
       this.heardImg = false;
       this.bgImg = false;
       this.changePassword = false;
+      this.mySay = false;
     },
     showHear() {
       this.heardImg = true;
       this.show = false;
       this.bgImg = false;
       this.changePassword = false;
+      this.mySay = false;
     },
     showBgimg() {
       this.bgImg = true;
       this.heardImg = false;
-      this.show = false; 
+      this.show = false;
       this.changePassword = false;
+      this.mySay = false;
     },
     showPassword() {
       this.changePassword = true;
       this.bgImg = false;
       this.heardImg = false;
       this.show = false;
+      this.mySay = false;
+    },
+    showmySay() {
+      this.changePassword = false;
+      this.bgImg = false;
+      this.heardImg = false;
+      this.show = false;
+      this.mySay = true;
     },
 
     // 修改昵称
@@ -270,7 +309,7 @@ export default {
             return this.$router.push({ name: "Login" });
           }
 
-          if (res.data.code == "H001") {
+          if (res.data.code === "H001") {
             this.show = false;
           }
           this.$toast({
@@ -286,8 +325,8 @@ export default {
     },
 
     // 上传背景
-    afterBg(file){
-       let tokenString = this.$cookies.get("tokenString");
+    afterBg(file) {
+      let tokenString = this.$cookies.get("tokenString");
       let type = file.file.type.split("/")[1];
       let types = ["png", "gif", "jpg", "jpeg"];
 
@@ -321,7 +360,7 @@ export default {
       })
         .then((res) => {
           this.$toast.clear();
-          
+
           if (res.data.code == 700) {
             this.$toast({
               message: res.data.msg,
@@ -344,7 +383,168 @@ export default {
           this.$toast.clear();
           console.log("err ==> ", err);
         });
-    }
+    },
+
+    // 更改个人简介
+    onchangeText() {
+      let tokenString = this.$cookies.get("tokenString");
+
+      if (!tokenString) {
+        return this.$router.push({ name: "Login" });
+      }
+
+      // 加载
+      this.$toast.loading({
+        message: "加载中...",
+        forbidClick: true,
+        duration: 0,
+      });
+      console.log(this.textWord);
+
+      this.$http({
+        method: "post",
+        url: "/updateDesc",
+        data: {
+          tokenString,
+          desc: this.textWord,
+        },
+      })
+        .then((res) => {
+          this.$toast.clear();
+          console.log(res);
+          if (res.data.code == 700) {
+            this.$toast({
+              message: res.data.msg,
+              forbidClick: true,
+              duration: 1000,
+            });
+            return this.$router.push({ name: "Login" });
+          }
+
+          if (res.data.code == "D001") {
+            this.mySay = false;
+          }
+          this.$toast({
+            message: res.data.msg,
+            forbidClick: true,
+            duration: 1000,
+          });
+        })
+        .catch((err) => {
+          this.$toast.clear();
+          console.log("err ==> ", err);
+        });
+    },
+
+    // 注销账号
+    dldeterUser() {
+      Dialog.confirm({
+        message: "是否确定注销当前账号！",
+      }).then(() => {
+        let tokenString = this.$cookies.get("tokenString");
+
+        if (!tokenString) {
+          return this.$router.push({ name: "Login" });
+        }
+
+        // 加载
+        this.$toast.loading({
+          message: "加载中...",
+          forbidClick: true,
+          duration: 0,
+        });
+
+        this.$http({
+          method: "post",
+          url: "/destroyAccount",
+          data: {
+            tokenString,
+          },
+        })
+          .then((res) => {
+            this.$toast.clear();
+           
+            if (res.data.code == 700) {
+              this.$toast({
+                message: res.data.msg,
+                forbidClick: true,
+                duration: 1000,
+              });
+              return this.$router.push({ name: "Login" });
+            }
+
+            if (res.data.code == "G001") {
+              this.$root.global.swap = 1;
+              this.$router.push({ name: "Login" });
+            }
+            this.$toast({
+              message: res.data.msg,
+              forbidClick: true,
+              duration: 1000,
+            });
+          })
+          .catch((err) => {
+            this.$toast.clear();
+            console.log("err ==> ", err);
+          });
+      }).catch(()=>{
+        
+      });
+    },
+
+    // 退出登录
+    tunoutuser() {
+       Dialog.confirm({
+        message: "是否确定退出当前账号！",
+      }).then(() => {
+         let tokenString = this.$cookies.get("tokenString");
+
+      if (!tokenString) {
+        return this.$router.push({ name: "Login" });
+      }
+
+      // 加载
+      this.$toast.loading({
+        message: "加载中...",
+        forbidClick: true,
+        duration: 0,
+      });
+
+      this.$http({
+        method: "post",
+        url: "/logout",
+        data: {
+          tokenString,
+        },
+      })
+        .then((res) => {
+          this.$toast.clear();
+      
+          if (res.data.code == 700) {
+            this.$toast({
+              message: res.data.msg,
+              forbidClick: true,
+              duration: 1000,
+            });
+            return this.$router.push({ name: "Login" });
+          }
+
+          if (res.data.code == "F001") {
+            this.$root.global.swap = 1;
+            this.$router.push({ name: "Login" });
+          }
+          this.$toast({
+            message: res.data.msg,
+            forbidClick: true,
+            duration: 1000,
+          });
+        })
+        .catch((err) => {
+          this.$toast.clear();
+          console.log("err ==> ", err);
+        });
+      }).catch(()=>{});
+    },
   },
 };
 </script>

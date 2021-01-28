@@ -302,7 +302,8 @@ export default {
           }
 
           if (res.data.code === 60000) {
-            console.log(res);
+            this.$router.push({path:'/main'})
+            this.$root.global.swap = 1;
           } else {
             this.$toast({
               message: res.data.msg,

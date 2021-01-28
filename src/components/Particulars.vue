@@ -83,6 +83,7 @@
           color="#8f5105"
           type="danger"
           text="立即购买"
+          @click="gonewBuy"
         />
       </van-goods-action>
     </div>
@@ -409,6 +410,12 @@ export default {
           this.$toast.clear();
           console.log("err==>", err);
         });
+    },
+
+    // 立即购买
+    gonewBuy(){
+      this.addCut();
+      this.goShopChut();
     },
 
     // 跳转购物车页面

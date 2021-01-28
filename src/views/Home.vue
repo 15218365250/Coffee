@@ -70,8 +70,6 @@ export default {
   },
   data() {
     return {
-      // 改变底部图标
-      // swap: this.$root.global.swap,
       title: ["热卖推荐"],
     };
   },

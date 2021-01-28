@@ -20,7 +20,8 @@ import {
     AddressEdit ,
     Uploader,
     Tab,
-    Tabs 
+    Tabs ,
+    Dialog 
 
 } from 'vant';
 
@@ -57,3 +58,4 @@ Vue.use(Button)
     .use(Uploader )
     .use(Tab)
     .use(Tabs)
+    .use(Dialog )
